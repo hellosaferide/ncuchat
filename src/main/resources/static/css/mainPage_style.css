@@ -1,0 +1,127 @@
+html body{
+    margin: 0;
+}
+body{
+    background-image: url("../resource/bg.jpg");
+    overflow: hidden;
+}
+div#container{
+	background: #E8E4E4;	
+}
+div#infor{
+	background: #333;
+}
+div.inforImg{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+div.inforImg img{
+	width: 45px;
+	height: 45px;
+}
+div.inforImg h5{
+	display: inline;
+	color: #F9F4F4;
+}
+div.inforImg h6{
+    color: #F9F4F4;
+}
+div.inforMenu{
+	margin-top: 10px;
+	text-align: center;
+}
+div.inforMenu img{
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+div.inforMenu span{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+div.inforList{
+	height: 83%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+div.listItem{
+	padding: 5px;
+    cursor: pointer;
+}
+.listItem:hover{
+    background: #666;
+
+}
+.listItem:visited{
+    background: #666;
+}
+div.chatItem{
+    padding: 5px;
+    height: 88%;
+    width: 97%;
+    overflow: auto;
+}
+div.chatItem img{
+    padding: 0;
+    margin: 0;
+    width: 45px;
+    height: 45px;
+    vertical-align: top;
+}
+div.listItem img{
+	padding: 0;
+	margin: 0;
+	width: 45px;
+	height: 45px;
+}
+div.listItem span{
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 0.7em;
+	color: #F9F4F4;
+}
+.span_information{
+	display: block;
+}
+div.chat {
+	padding: 0;
+}
+div#textarea textarea{
+	width: 97%;
+	resize: none;
+	border: none;
+	background: #E8E4E4;
+}
+div#textarea textarea:focus{
+	outline: none;
+}
+div.chat img{
+	padding: 0;
+	margin: 0;
+	width: 40px;
+	height: 40px;
+}
+div#btn{
+	background:#99ff00;
+	position:absolute;
+	left:100px;
+	top:120px;
+}
+.chatItem{
+    width: 80%;
+}
+.chatItemRight{
+    margin-right: 5px;
+    text-align: right;
+}
+.chatMessage{
+    margin-bottom: 10px;
+}
+.chatMessage div{
+    padding: 5px;
+    border-radius: 5px;
+    background: #9fcdff;
+}
+.saveA:hover{
+	cursor: pointer;
+	color: #9fcdff;
+}
