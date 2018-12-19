@@ -6,6 +6,12 @@ spring:
     url: jdbc:mysql://localhost:3306/ncuchat?useSSL=false&serverTimezone=UTC
   jpa:
     show-sql: true
+  security:
+    basic:
+      enabled: false
+  management:
+    security:
+      enabled: false
 logging:
   level:
     cn.edu.ncu.ncuchat: debug

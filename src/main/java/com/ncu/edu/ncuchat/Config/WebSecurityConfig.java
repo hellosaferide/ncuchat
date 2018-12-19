@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/index","/register").permitAll()//1根路径和/index路径不拦截
+                .antMatchers("/index","/register","/reg").permitAll()//1根路径和/index路径不拦截
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

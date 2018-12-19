@@ -13,6 +13,7 @@ else
 {
     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 }
+/*
 function transformToRegister(){
 	var formString="<form>" +
         "            \t\t\t\t\t\t<div class=\"form-group\">\n" +
@@ -49,6 +50,7 @@ function transformToRegister(){
         "        \t\t\t\t\t\t    <span style='color: #f7f7f7'>已有账号？<span class=\"span_button\" href=\"\" onclick=\"transformToSubmit()\">点击登录</span></span>\n";
   	document.getElementById("container").innerHTML=formString;
 }
+
 function transformToSubmit() {
     var formString="<form>\n" +
         "    \t\t\t\t\t\t<div class=\"form-group\">\n" +
@@ -72,7 +74,7 @@ function transformToSubmit() {
     document.getElementById("container").innerHTML=formString;
 
 }
-
+*/
 function registerSubmit() {
     var userTel= document.getElementById("usertel").value;
     var userName = userTel;
@@ -123,7 +125,6 @@ function registerAjax(obj1) {
                 alert("该手机号已被注册！");
             }else {
                 alert("注册成功");
-
             }
         }
 
@@ -136,7 +137,7 @@ function loginSubmit() {
     if(tel==""||pwd==""){
         alert("手机号和密码不能为空！");
     }else {
-        var loginUser = {"tel":tel,"pwd":pwd};
+        var loginUser = {"tel":tel,"pwd":pwd};//json数据
         SaveToDB(loginUser);
     }
 
@@ -144,6 +145,7 @@ function loginSubmit() {
 
 function SaveToDB(loginUser) {
     var jsonData = JSON.stringify(loginUser);
+    //ajax get请求
     $.ajax({
         type:"get",
         url:"/login",

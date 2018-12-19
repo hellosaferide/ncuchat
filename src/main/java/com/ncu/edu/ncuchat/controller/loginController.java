@@ -39,6 +39,7 @@ public class loginController {
                 isContain = true;
             }
         }
+
         return ""+isContain;
     }
 
@@ -46,7 +47,6 @@ public class loginController {
     public @ResponseBody String register(@RequestParam("obj") String obj){
         Users users = JsonTransform.jsonToUsers(obj);
         usersService.saveUsers(users);
-
         return "1";
     }
 

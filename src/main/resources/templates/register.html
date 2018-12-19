@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{css/login_style.css}">
+    <script th:src="@{js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.min.css}">
+    <script charset="utf-8" th:src="@{js/login_script.js}"></script>
+    <title>NcuChat</title>
+</head>
+<body onload="onLoad()">
+<div class="contianer" id="logo">
+    <span class="navbar-brand col-sm-2 offset-ms-2">NcuChat</span>
+</div>
+<div id="body">
+    <div >
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <div id="container">
+                    <form>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" id="usertel" placeholder="请输入手机号">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="username" placeholder="请输入您的昵称">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" placeholder="请输入您的邮箱">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="sex">
+                                <option>男</option>
+                                <option>女</option>
+                                <option>不公开</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="address" placeholder="请输入您的地址">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="remark" placeholder="备注">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="current-password" placeholder="请输入密码">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password-again" placeholder="请再次输入密码">
+                        </div>
+                        <button type="submit" onclick="registerSubmit()" class="col-sm-12 btn btn-primary">注册</button>
+                        <span style='color: #f7f7f7'>已有账号？<a class="span_button" href="index">点击登录</a></span>
+                    </form>
+                </div><!--contianer-->
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</div>
+<div id="bottom">
+    <p>Created By 肖孟豪</p>
+</div>
+
+</body>
+</html>
