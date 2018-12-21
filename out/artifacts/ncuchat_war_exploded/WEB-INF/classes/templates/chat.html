@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>NcuChat</title>
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script charset="utf-8" th:src="@{js/mainPage_script.js}"></script>
+	<script th:src="@{js/commentVal.js}"></script>
+    <script th:src="@{js/sockjs.min.js}"></script>
+    <script th:src="@{js/stomp.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/mainPage_style.css}">
+</head>
+<body onload="onLoadChatPage()">
+<div class="row" >
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8" style="margin: 0;padding: 0;">
+		<div id="container">
+			<div class="row">
+				<div id="infor" class="col-sm-3">
+					<div class="inforImg">
+						<img th:src="@{resource/bg.jpg}">&nbsp;
+						<h5 id="user_Nick_Name">洪城浪子</h5>
+						<h6 id="user_Remark">花开堪折直须折</h6>
+					</div>
+					<div class="inforMenu">
+                        <input id="searchInput" style="width: 75%;background: #666;border-color: #333" type="text">
+                        <img id="search"  onclick="searchFriend()"  th:src="@{resource/search.png}" alt="">
+                        <script>
+                            $("#search").mouseover(function () {
+                                document.getElementById("search").src = "resource/search_fill.png";
+                            });
+                            $("#search").mouseleave(function () {
+                                document.getElementById("search").src = "resource/search.png";
+                            });
+                        </script>
+                        <img id="interactive" onclick="interactive()" th:src="@{resource/interactive_fill.png}"><span>|</span><img onclick="addressbook()" id="addressbook" th:src="@{resource/addressbook.png}">
+					</div>
+					<div class="inforList" id="friendsList">
+
+					</div>
+				</div>
+				<div id="chat" class="col-sm-9" style="padding: 0">
+					<div style="height: 78%;">
+						<div class="text" id="chatUser" style=" text-align:center;">NcuChat</div>
+                        <HR>
+                        <div class="chatItem" id="output">
+                            <div class="container">
+                                <div class="card bg-light text-dark">
+                                    <div class="card-body">选择好友进行聊天</div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+					<div style="height: 35%;">
+                        <form id="wiselyForm">
+							<hr style="padding: 0;margin: 0">
+    						<div id="textarea" >
+      						    <textarea rows="4" disabled name="text" id="comment"></textarea>
+    						</div>
+                            <div style="text-align: right;padding-right: 20px;">
+                                <button id="buttonSend" disabled type="submit" class="btn">发送</button>
+                            </div>
+  						</form>
+					</div>
+				</div>
+			</div><!--contianer-->
+		</div>
+    <div class="col-sm-2"></div>
+	</div>
+</div>
+
+
+<script th:inline="javascript">
+    var sendUser  = null;
+    var receiveUser;
+    $('#wiselyForm').submit(function(e){
+        e.preventDefault();
+        var text = $('#wiselyForm').find('textarea[name="text"]').val();
+        if(sendUser==null){
+            $.ajax({
+                type:"get",
+                async:false,
+                url:"/loginCheck",
+                success:function (data) {
+                    sendUser = ""+data;
+                }
+            });
+        }
+        receiveUser = document.getElementById("chatUser").data;
+        var obj = {"text":text,"sendUser":sendUser,"receiveUser":receiveUser};
+        $('#wiselyForm').find('textarea[name="text"]').val("");
+        $('#output').append("<div class=\"chatMessage\" style=\"text-align: right\">\n" +
+            "                                <div class=\"panel\" style=\"display:inline-block;max-width:83%;\">\n" + text +
+            "                                </div>\n" +
+            "                                <img style=\"margin-right: 20px;\" th:src=\"@{resource/bg.jpg}\">\n" +
+            "                            </div>");
+        sendSpittle(obj);
+    });
+
+    var sock = new SockJS("/endpointChat"); //1
+    var stomp = Stomp.over(sock);
+    stomp.connect('guest', 'guest', function(frame) {
+        stomp.subscribe("/user/queue/notifications", handleNotification);//2
+    });
+
+    function handleNotification(message) {
+        document.location.reload();
+        var messages=JSON.parse(message.body);
+        var text = messages.text;
+        var sendUser = messages.sendUser;
+        var receiveUser = messages.receiveUser;
+        $('#output').append("<div class=\"chatMessage\">\n" +
+            "                                <img th:src=\"@{resource/bg.jpg}\">\n" +
+            "                                <div class=\"panel\" style=\"display:inline-block;max-width:83%\">\n" + text +
+            "                                </div>\n" +
+            "                            </div>");
+    }
+
+    function sendSpittle(text) {
+        var sendText = JSON.stringify(text);
+        stomp.send("/chat", {}, sendText);//3
+    }
+    //$('#stop').click(function() {sock.close()});
+</script>
+
+<div id="divCard" onmouseover="hoverDivCards()" onmouseout="outDivCard()" class="card" style="width:300px;position: fixed;z-index: 999;top: 0;left: 0">
+    <div class="card-body">
+        <h6 class="card-title">昵称 ：<span id="friendNickName">洪城浪子</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span id="friendSex">男</span>
+        </h6>
+        <h6 class="card-title">电话 ：<span id="friendTel">15180254065</span></h6>
+        <h6 class="card-title">邮箱 ：<span id="friendEmail">869384514@qq.com</span></h6>
+        <h6 class="card-title">地址 ：<span id="friendAddress">南昌大学天健园</span></h6>
+        <h6 class="card-title">个性签名 ：<span id="individuality">欲买桂花同载酒，终不似，少年游。</span></h6>
+        <p class="card-text" id="friendsImpression">好友印象 ：
+
+        </p>
+        <input id="inputImpression" type="text" name="impressionText"/>
+        <a style="cursor: pointer" onclick="addImpression()" class="btn btn-primary">添加</a>
+    </div>
+</div>
+<script>
+    $("#divCard").hide();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: ncuchat
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: ddd
+Implementation-Vendor-Id: com.ncu.edu
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_161
+Main-Class: ${start-class}
+

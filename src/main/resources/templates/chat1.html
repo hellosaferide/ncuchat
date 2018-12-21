@@ -85,7 +85,7 @@
 					<hr>
 					<div class="row">
 						<div class="col-md-12">
-							<div id="chatContent" style="height: 500px;">
+							<div id="chatContent" style="height: 500px;" class="pre-scrollable">
 
 							</div>
 						</div>
@@ -124,11 +124,11 @@
                 receiveUser = document.getElementById("chatUser").data;
                 var obj = {"text":text,"sendUser":sendUser,"receiveUser":receiveUser};
                 $('#wiselyForm').find('input[name="text"]').val("");
-                $('#output').append("<div class=\"user_id\">\n" +
+                $('#chatContent').append("<div class=\"friend_id\">\n" +
                     "                                    <img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\" >\n" +
                     "                                    <div class=\"chat-bubble chat-bubble-right\">"+text+"</div>\n" +
                     "                                </div>");
-                sendSpittle(obj);
+                send(obj);
             });
 
             var sock = new SockJS("/endpointChat"); //1
@@ -138,7 +138,7 @@
             });
 
             function handleNotification(message) {
-                document.location.reload();
+                //document.location.reload();
                 var messages=JSON.parse(message.body);
                 var text = messages.text;
                 var sendUser = messages.sendUser;
@@ -148,11 +148,12 @@
                     "                                    <div class=\"chat-bubble chat-bubble-left\">"+text+"</div>\n" +
                     "                                </div>");
             }
-
-            function sendSpittle(text) {
+            //向服务器发送消息
+            function send(text) {
                 var sendText = JSON.stringify(text);
                 stomp.send("/chat1", {}, sendText);//3
             }
+
         </script>
 	</body>
 </html>

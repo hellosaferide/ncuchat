@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 14250369xmh9
+    url: jdbc:mysql://localhost:3306/ncuchat?useSSL=false&serverTimezone=UTC
+  jpa:
+    show-sql: true
+logging:
+  level:
+    cn.edu.ncu.ncuchat: debug
