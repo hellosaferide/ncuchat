@@ -35,7 +35,7 @@ function loadUserMessage() {
 
 var current_friend;
 var friends;
-
+//加载用户信息
 function setUserMessage(UserJsonDatas) {
     var UserJsonData = JSON.parse(UserJsonDatas);
     var userId = UserJsonData.userId;

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>HappyChat</title>
+        <script th:src="@{js/commentVal.js}"></script>
+        <script th:src="@{js/sockjs.min.js}"></script>
+        <script th:src="@{js/stomp.min.js}"></script>
+        <script th:src="@{js/jquery.min.js}"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{css/style.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{fontawesome-free-5.6.1-web/css/all.css}">
+        <script th:src="@{fontawesome-free-5.6.1-web/js/all.js}"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{css/bubble.css}">
+        <script th:src="@{js/chat.js}"></script>
+	</head>
+	<body onload="onLoadChatPage()">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-3" style="background-color: #DDE1F0 ;">
+					<div class="row" id="user_info" style="margin-bottom: 10px;">
+						<div class="col-md-4">
+							<img class="img-circle img-thumbnail" th:src="@{resource/ben-dehghan.jpg}" width="80" height="80" alt="头像" />
+						</div>
+						<div class="col-md-8">
+							<div class="row" style="margin-bottom: 20px;">
+								<div class="col-md-12">
+									nick_name:
+									<span id="user_nickname">肖孟豪</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									个性签名:
+									<span id="user_mark">有些人就是这样</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="input-group" id="search" style="margin-bottom: 20px;">
+						<input type="text" class="form-control" placeholder="搜索联系人">
+						<span class="input-group-addon">
+							<i class="fas fa-search"></i>
+						</span>
+					</div>
+
+					<div class="container" id="menu">
+						<div class="row">
+							<div class="col-md-3" >
+								<i class="far fa-comment-alt fa-2x" style="font-size: 28px;cursor: pointer" id="comment" onclick="loadChat()"></i>
+							</div>
+							<div class="col-md-3">
+								<i class="fas fa-address-book fa-2x" style="font-size: 28px;cursor: pointer" id="addressbook" onclick="loadFriend()"></i>
+							</div>
+							<div class="col-md-3">
+								<i class="fas fa-user-plus fa-2x" style="font-size: 28px;cursor: pointer" onclick="addFriend()" id="add"></i>
+							</div>
+                            <div class="col-md-3">
+                                <i class="fas fa-download fa-2x" style="font-size: 28px;cursor: pointer" onclick="saveChats(userId)" id="doownlad"></i>
+                            </div>
+						</div>
+					</div>
+					<hr>
+
+					<div class="row">
+						<div class="col-md-12">
+							<ul class="list-group" id="friendList">
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-9">
+					<footer class="navbar-fixed-top">
+						<div class="container" style="height: 80px;">
+							<h3 id="chatUser">
+								Skype Translator
+							</h3>
+						</div>
+					</footer>
+					<hr>
+					<div class="row">
+						<div class="col-md-12">
+							<div id="chatContent" style="height: 500px;">
+
+							</div>
+						</div>
+					</div>
+					<hr>
+                    <div class="input-group" id="input_message" style="margin-bottom: 20px;">
+                        <form id="wiselyForm">
+                            <input type="text" name="text" class="form-control" style="height: 60px;" placeholder="在此输入消息" id="input">
+                            <button class="input-group-addon" style="width: 60px;" id="sendButton" type="submit">
+                                发送
+                            </button>
+                        </form>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script th:src="@{js/bootstrap.min.js}"></script>
+        <script th:inline="javascript">
+            var sendUser  = null;
+            var receiveUser;
+            $('#wiselyForm').submit(function(e){
+                e.preventDefault();
+                var text = $('#wiselyForm').find('input[name="text"]').val();
+                if(sendUser==null){
+                    $.ajax({
+                        type:"get",
+                        async:false,
+                        url:"/loginCheck",
+                        success:function (data) {
+                            sendUser = ""+data;
+                        }
+                    });
+                }
+                receiveUser = document.getElementById("chatUser").data;
+                var obj = {"text":text,"sendUser":sendUser,"receiveUser":receiveUser};
+                $('#wiselyForm').find('input[name="text"]').val("");
+                $('#output').append("<div class=\"user_id\">\n" +
+                    "                                    <img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\" >\n" +
+                    "                                    <div class=\"chat-bubble chat-bubble-right\">"+text+"</div>\n" +
+                    "                                </div>");
+                sendSpittle(obj);
+            });
+
+            var sock = new SockJS("/endpointChat"); //1
+            var stomp = Stomp.over(sock);
+            stomp.connect('guest', 'guest', function(frame) {
+                stomp.subscribe("/user/queue/notifications", handleNotification);//2
+            });
+
+            function handleNotification(message) {
+                document.location.reload();
+                var messages=JSON.parse(message.body);
+                var text = messages.text;
+                var sendUser = messages.sendUser;
+                var receiveUser = messages.receiveUser;
+                $('#chatContent').append("<div class=\"user_id\">\n" +
+                    "                                    <img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\" >\n" +
+                    "                                    <div class=\"chat-bubble chat-bubble-left\">"+text+"</div>\n" +
+                    "                                </div>");
+            }
+
+            function sendSpittle(text) {
+                var sendText = JSON.stringify(text);
+                stomp.send("/chat1", {}, sendText);//3
+            }
+        </script>
+	</body>
+</html>

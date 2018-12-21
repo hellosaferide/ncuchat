@@ -51,16 +51,19 @@ public class loginController {
     }
 
     @RequestMapping("/loadFriends")
-    public @ResponseBody String loadFriends(@RequestParam("obj") String obj){
+    public @ResponseBody String loadFriends(@RequestParam("userId") String userId){
         ArrayList<Relationships> relationships = (ArrayList<Relationships>) relationshipsService.findAll();
         System.out.println(relationships);
         ArrayList<Integer> friends = new ArrayList<>();
+        System.out.println(userId);
         for(Relationships relationships1:relationships){
-            if(relationships1.getUserId() == Integer.valueOf(obj)){
+            if(relationships1.getUserId() == Integer.parseInt(userId)){
                 friends.add(relationships1.getFriendId());
             }
         }
+
         System.out.println(friends.toString());
+
         ArrayList<Users> usersArrayList = (ArrayList<Users>) usersService.findAll();
         ArrayList<Users> userReturn = new ArrayList<>();
         for(Users user2:usersArrayList){

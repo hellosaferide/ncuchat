@@ -8,7 +8,7 @@ import java.io.IOException;
 @Service
 public class File {
     public static void writeMethod(String content){
-        String fileName="C:\\chats.txt";
+        String fileName="D://chats.txt";
         try{
             FileWriter writer=new FileWriter(fileName);
             writer.write(content);

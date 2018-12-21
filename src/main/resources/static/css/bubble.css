@@ -1,0 +1,102 @@
+.chat-bubble{
+  position: relative;
+  margin:12px;
+  padding:5px 8px;
+  word-break: break-all;
+  background:#fff;
+  border: 1px solid #989898;
+  border-radius: 5px;
+  max-width:180px;
+}
+ 
+.chat-bubble-left {
+	background-color: green;
+}
+.chat-bubble-left:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -20px;
+  top:5px;
+  border: 10px solid;
+  border-color:transparent #989898 transparent  transparent ;
+}
+.chat-bubble-left:after {
+ content: '';
+ position: absolute;
+ width: 0;
+ height: 0;
+ left:-16px;
+ top:7px;
+ border: 8px solid;
+ border-color:transparent #ffffff transparent  transparent ;
+}
+ 
+.chat-bubble-right {
+	
+}
+.chat-bubble-right:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -20px;
+  top:5px;
+  border: 10px solid;
+  border-color:transparent transparent transparent #989898;
+}
+.chat-bubble-right:after {
+ content: '';
+ position: absolute;
+ width: 0;
+ height: 0;
+ right:-16px;
+ top:7px;
+ border: 8px solid;
+ border-color:transparent transparent transparent #ffffff ;
+}
+ 
+.chat-bubble-top {}
+.chat-bubble-top:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left:10px;
+  top:31px;
+  border: 10px solid;
+  border-color: #989898 transparent  transparent  transparent ;
+}
+.chat-bubble-top:after {
+ content: '';
+ position: absolute;
+ width: 0;
+ height: 0;
+ left:12px;
+ top:30px;
+ border: 8px solid;
+ border-color:#ffffff transparent transparent transparent  ;
+}
+ 
+.chat-bubble-bottom {}
+.chat-bubble-bottom:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right:10px;
+  top:-21px;
+  border: 10px solid;
+  border-color:transparent transparent #989898 transparent ;
+}
+.chat-bubble-bottom:after {
+ content: '';
+ position: absolute;
+ width: 0;
+ height: 0;
+ right:12px;
+ top:-16px;
+ border: 8px solid;
+ border-color:transparent transparent #ffffff transparent  ;
+}

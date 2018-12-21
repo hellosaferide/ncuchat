@@ -21,8 +21,8 @@
 				<div id="infor" class="col-sm-3">
 					<div class="inforImg">
 						<img th:src="@{resource/bg.jpg}">&nbsp;
-						<h5 id="user_Nick_Name">洪城浪子</h5>
-						<h6 id="user_Remark">花开堪折直须折</h6>
+						<h5 id="user_Nick_Name">Lebron James</h5>
+						<h6 id="user_Remark">the chosen one</h6>
 					</div>
 					<div class="inforMenu">
                         <input id="searchInput" style="width: 75%;background: #666;border-color: #333" type="text">
@@ -41,6 +41,7 @@
 
 					</div>
 				</div>
+
 				<div id="chat" class="col-sm-9" style="padding: 0">
 					<div style="height: 78%;">
 						<div class="text" id="chatUser" style=" text-align:center;">NcuChat</div>
@@ -53,6 +54,7 @@
                             </div>
 						</div>
 					</div>
+
 					<div style="height: 35%;">
                         <form id="wiselyForm">
 							<hr style="padding: 0;margin: 0">
@@ -125,22 +127,6 @@
     //$('#stop').click(function() {sock.close()});
 </script>
 
-<div id="divCard" onmouseover="hoverDivCards()" onmouseout="outDivCard()" class="card" style="width:300px;position: fixed;z-index: 999;top: 0;left: 0">
-    <div class="card-body">
-        <h6 class="card-title">昵称 ：<span id="friendNickName">洪城浪子</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="friendSex">男</span>
-        </h6>
-        <h6 class="card-title">电话 ：<span id="friendTel">15180254065</span></h6>
-        <h6 class="card-title">邮箱 ：<span id="friendEmail">869384514@qq.com</span></h6>
-        <h6 class="card-title">地址 ：<span id="friendAddress">南昌大学天健园</span></h6>
-        <h6 class="card-title">个性签名 ：<span id="individuality">欲买桂花同载酒，终不似，少年游。</span></h6>
-        <p class="card-text" id="friendsImpression">好友印象 ：
-
-        </p>
-        <input id="inputImpression" type="text" name="impressionText"/>
-        <a style="cursor: pointer" onclick="addImpression()" class="btn btn-primary">添加</a>
-    </div>
-</div>
 <script>
     $("#divCard").hide();
 </script>

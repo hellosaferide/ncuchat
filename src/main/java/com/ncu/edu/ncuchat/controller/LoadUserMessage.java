@@ -68,7 +68,6 @@ public class LoadUserMessage {
                 }
             }
         }
-
         return JsonTransform.chatsListToJSON(returnChats).toString();
     }
 
@@ -88,8 +87,8 @@ public class LoadUserMessage {
     }
 
     @RequestMapping("/loadChatBetweenTwo")
-    public @ResponseBody String loadChatBetweenTwo(@RequestParam("obj") String obj){
-        UserAndFriend userAndFriend = JsonTransform.jsonToUserAndFriend(obj);
+    public @ResponseBody String loadChatBetweenTwo(@RequestParam("user_friend") String user_friend){
+        UserAndFriend userAndFriend = JsonTransform.jsonToUserAndFriend(user_friend);
         List<Chats> chatsList = chatsService.findAll();
         List<Chats> chatsByUserId = new ArrayList<>();
         for(Chats chats:chatsList){
@@ -99,6 +98,9 @@ public class LoadUserMessage {
             if(chats.getFriendId() == userAndFriend.getUserId()&&chats.getUserId() == userAndFriend.getFriendId()){
                 chatsByUserId.add(chats);
             }
+        }
+        for (Chats chats:chatsByUserId){
+            System.out.println(chats.toString());
         }
         return JsonTransform.chatsListToJSON(chatsByUserId).toString();
     }

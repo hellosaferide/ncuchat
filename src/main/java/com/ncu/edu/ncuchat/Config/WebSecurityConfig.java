@@ -44,14 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/index","/register","/reg").permitAll()//1根路径和/index路径不拦截
+        http.authorizeRequests()
+                .antMatchers("/index","/register","/reg","/loadFriends","/loadChats","/getNickName","loadChatBetweenTwo").permitAll()//1根路径和/index路径不拦截
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/index") //2登陆页面
-                .defaultSuccessUrl("/chat") //3登陆成功转向该页面
+                .defaultSuccessUrl("/chat1") //3登陆成功转向该页面
                 .permitAll()
                 .and()
                 .logout()

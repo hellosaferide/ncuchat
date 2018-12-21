@@ -39,7 +39,7 @@ public class WsController {
     @Autowired
     ChatsService chatsService;
 
-	@MessageMapping("/chat")
+	@MessageMapping("/chat1")
 	public void handleChat(Principal principal, String msg) throws Exception { //2
         messageModel= JsonTransform.josnToMessage(msg);
         int userId = usersService.findByUserName(messageModel.getSendUser());
@@ -52,7 +52,6 @@ public class WsController {
         chats.setSendTime(timestamp);
         chats.setSendContent(messageModel.getText());
         chatsService.saveChats(chats);
-
 		if (principal.getName().equals(messageModel.getReceiveUser())) {//3
 			messagingTemplate.convertAndSendToUser(messageModel.getSendUser(),
 					"/queue/notifications", msg);
