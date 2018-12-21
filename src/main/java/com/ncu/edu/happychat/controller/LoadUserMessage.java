@@ -164,7 +164,7 @@ public class LoadUserMessage {
                 isContain = true;
             }
         }
-        if(isContain){
+        if(isContain||jsonObject.getInt("userId")==jsonObject.getInt("friendId")){
             return "-1";
         }else {
             relationshipsService.saveRelationships(relationships);

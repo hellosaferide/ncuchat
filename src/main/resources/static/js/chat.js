@@ -246,4 +246,80 @@ function loadAddressBook() {
     }
 }
 
+function findFriend() {
+    var res;
+    var username=document.getElementById("input_username").value;
+    var sex0=document.getElementById("sex").value;
+    var sex;
+    if (sex0=="male") {
+        sex=1;
+    }else if(sex0=="female"){
+        sex=2;
+    }else{
+        sex=0;
+    }
+    //昵称模糊查询
+    var searchInfo = {
+        "username":username,
+        "sex":sex
+    };
+    $.ajax({
+        type:"get",
+        datatype:"string",
+        async:false,
+        url:"/users/findFriend",
+        data:{
+            "user_info":JSON.stringify(searchInfo)
+        },
+        success:function (data) {
+            res= JSON.parse(data);
+        }
+    });
+    $("#userListst").empty();
+    var list=document.getElementById("userListst");
+    for (var i=0;i<res.length;i++){
+
+        var content="<li class=\"list-group-item\" id='"+res[i].userId+"'>\n" +
+            "                                    <div class=\"container-fluid\">\n" +
+            "                                        <div class=\"row\">\n" +
+            "                                            <div class=\"col-sm-3\">\n" +
+            "                                                <img src=\"resource/ben-dehghan.jpg\" width=\"50\" height=\"50\" />\n" +
+            "                                            </div>\n" +
+            "                                            <div class=\"col-sm-7\">\n" +
+            "                                                <div class=\"user_name\">"+res[i].userNickname+"</div>\n" +
+            "                                                <div class=\"user_remark\">"+res[i].userRemark+"</div>\n" +
+            "                                            </div>\n" +
+            "                                            <div class=\"col-sm-2\">\n" +
+            "                                                <i class=\"fas fa-plus-circle fa-2x\" style=\"cursor: pointer;\" onclick='addFriend("+res[i].userId+")'></i>\n" +
+            "                                            </div>\n" +
+            "                                        </div>\n" +
+            "                                    </div>\n" +
+            "                                </li>"
+        $("#userListst").append(content);
+    }
+
+
+}
+function addFriend(friendId) {
+    var addFriedPackage = {
+        "userId": document.getElementById("user_nickname").data,
+        "friendId":friendId
+    };
+    $.ajax({
+        type:"get",
+        datatype:"string",
+        async:false,
+        url:"/addFriend",
+        data:{
+            "obj":JSON.stringify(addFriedPackage)
+        },
+        success:function (data) {
+            if(data=="-1"){
+                alert("该用户已经是您的好友");
+            }else {
+                alert("添加成功");
+            }
+        }
+    });
+}
 

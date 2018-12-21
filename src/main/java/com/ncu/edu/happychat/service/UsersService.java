@@ -6,6 +6,7 @@ import com.ncu.edu.happychat.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,4 +43,15 @@ public class UsersService {
     public List<Users> queryUsers(String userPhone){
         return usersDao.queryUsers(userPhone);
     }
+    public List<Users> queryUsers(String username,int sex){
+        List<Users> usersList=usersDao.findAll();
+        List<Users> returnUser=new ArrayList<>();
+        for (int i=0;i<usersList.size();i++){
+            if (usersList.get(i).getUserNickname().indexOf(username)!=-1&&usersList.get(i).getUserSex()==sex){
+                returnUser.add(usersList.get(i));
+            }
+        }
+        return returnUser;
+    }
+
 }

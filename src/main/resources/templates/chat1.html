@@ -56,7 +56,7 @@
 								<i class="fas fa-address-book fa-2x" style="font-size: 28px;cursor: pointer" id="addressbook" onclick="loadFriend()"></i>
 							</div>
 							<div class="col-md-3">
-								<i class="fas fa-user-plus fa-2x" style="font-size: 28px;cursor: pointer" onclick="addFriend()" id="add"></i>
+                                <i class="fas fa-user-plus fa-2x" style="font-size: 28px;cursor: pointer" onclick="addFriend()" id="add" data-toggle="modal" data-target="#myModal"></i>
 							</div>
                             <div class="col-md-3">
                                 <i class="fas fa-download fa-2x" style="font-size: 28px;cursor: pointer" onclick="saveChats(userId)" id="doownlad"></i>
@@ -104,6 +104,40 @@
 				</div>
 			</div>
 		</div>
+        <!--添加好友模态框-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">添加好友</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="form" style="margin-bottom: 50px;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="输入关键字/账号" id="input_username">
+                            </div>
+                            <select id="sex" name="select" class="selectpicker show-tick form-control" >
+                                <option value="male">男</option>
+                                <option value="female">女</option>
+                                <option value="any">不限</option>
+                            </select>
+                            <button class="btn-success btn-block" onclick="findFriend()" style="height: 40px;">
+                                查找
+                            </button>
+                        </div>
+                        <div id="all_search">
+                            <ul class="list-group" id="userListst">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<script th:src="@{js/bootstrap.min.js}"></script>
         <script th:inline="javascript">
             var sendUser  = null;
