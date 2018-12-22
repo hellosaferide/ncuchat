@@ -47,8 +47,7 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/findFriend",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
-    public @ResponseBody
-    String searchFriend(@RequestParam("user_info") String user_info){
+    public @ResponseBody String searchFriend(@RequestParam("user_info") String user_info){
         JSONObject object=JSONObject.fromObject(user_info);
         System.out.println(user_info);
         String userName=object.getString("username");
@@ -61,6 +60,16 @@ public class UsersController {
         }else {
             return "-1";
         }
+    }
+
+    /**
+     * 查找已有联系人
+     * @param user_nickname
+     * @return
+     */
+    @RequestMapping(value = "/searchFriend",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
+    public @ResponseBody String search_exsit_Friend(@RequestParam("user_nickname") String user_nickname){
+        return JsonTransform.userListToJSON(usersService.selUserByNickname(user_nickname)).toString();
     }
 
 }

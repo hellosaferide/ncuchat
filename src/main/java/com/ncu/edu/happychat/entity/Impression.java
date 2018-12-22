@@ -11,7 +11,7 @@ public class Impression {
 
     private int userId;
 
-    private String impressionText;
+    private String impressionContent;
 
     public int getImpressionId() {
         return impressionId;
@@ -29,12 +29,13 @@ public class Impression {
         this.userId = userId;
     }
 
-    public String getImpressionText() {
-        return impressionText;
+
+    public String getImpressionContent() {
+        return impressionContent;
     }
 
-    public void setImpressionText(String impressionText) {
-        this.impressionText = impressionText;
+    public void setImpressionContent(String impressionContent) {
+        this.impressionContent = impressionContent;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class Impression {
         return "Impression{" +
                 "impressionId=" + impressionId +
                 ", userId=" + userId +
-                ", impressionText='" + impressionText + '\'' +
+                ", impressionContent='" + impressionContent + '\'' +
                 '}';
     }
 }

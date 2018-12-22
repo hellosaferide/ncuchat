@@ -100,7 +100,10 @@ public class JsonTransform {
         Impression impression = (Impression)JSONObject.toBean(jsonObject,Impression.class);
         return impression;
     }
-
+    public static JSONObject impressionToJson(Impression impression){
+        JSONObject jsonObject=JSONObject.fromObject(impression);
+        return jsonObject;
+    }
     public static JSONArray impressionListToJson(List<Impression> impressionList){
         JSONArray jsonArray = JSONArray.fromObject(impressionList);
         return jsonArray;

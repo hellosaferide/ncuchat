@@ -53,5 +53,15 @@ public class UsersService {
         }
         return returnUser;
     }
+    public List<Users> selUserByNickname(String user_nickname){
+        List<Users> usersList=usersDao.findAll();
+        List<Users> returnUser=new ArrayList<>();
+        for (int i=0;i<usersList.size();i++){
+            if (usersList.get(i).getUserNickname().indexOf(user_nickname)!=-1){
+                returnUser.add(usersList.get(i));
+            }
+        }
+        return returnUser;
+    }
 
 }

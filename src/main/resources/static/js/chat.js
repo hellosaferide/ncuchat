@@ -3,6 +3,7 @@ function onLoadChatPage() {
     if(userId == null){
         loadUserMessage();
     }
+    $("#friendCard").hide();
 }
 function loadUserMessage() {
     var xhr=new XMLHttpRequest();
@@ -26,6 +27,7 @@ function loadUserMessage() {
             }
         }
     }
+
 }
 
 
@@ -105,7 +107,9 @@ function setUserMessage(UserJsonDatas) {
 
                 var time = timetrans(chats[i].sendTime.time);
                 var contents = chats[i].sendContent;
-
+                if(contents.length>15){
+                    contents=contents.substr(0,15)+".....";
+                }
                 var content="<li class=\"list-group-item\" style='cursor: pointer' onclick='selectedFriend("+friend.userId+")' id='"+friend.userId+"'>\n" +
                     "\t\t\t\t\t\t\t\t\t<div class=\"container-fluid\">\n" +
                     "                                        <div class=\"row\">\n" +
@@ -114,7 +118,8 @@ function setUserMessage(UserJsonDatas) {
                     "                                            </div>\n" +
                     "                                            <div class=\"col-sm-4\">\n" +
                     "                                                <div id=\"friend_name\">"+friend.userNickname+"</div>\n" +
-                    "                                                <div id='"+"content"+friend.userId+"'>"+contents+"</div>\n" +
+                    "                                                <" +
+                    "div id='"+"content"+friend.userId+"'>"+contents+"</div>\n" +
                     "                                            </div>\n" +
                     "                                            <div class=\"col-sm-5\">\n" +
                     "                                                <span style='font-size: 10px;float: right' id='"+"time"+friend.userId+"' >"+time+"</span>\n" +
@@ -144,10 +149,10 @@ function selectedFriend(friendId) {
     var chats;
     var userId=document.getElementById("user_nickname").data;
     $("#"+friendId).attr("class","list-group-item active");
+    $("#sendButton").attr("disabled",false);
     $("#save").empty();
     $("#save").append("<i class=\"fas fa-download fa-2x\" style=\"font-size: 28px;cursor: pointer\" onclick=\"saveChats("+userId+","+friendId+")\" id=\"doownlad\"></i>")
     $("#chatContent").empty();
-    $("#buttonSend").disabled = false;
     var i = 0;
     //找到当前点击的好友current_friend
     for(i = 0;i<allFriends.length;i++){
@@ -254,7 +259,7 @@ function loadAddressBook() {
             "                                    <div class=\"container-fluid\">\n" +
             "                                        <div class=\"row\">\n" +
             "                                            <div class=\"col-sm-3\">\n" +
-            "                                                <img src=\"resource/ben-dehghan.jpg\" width='50' height='50' onmouseover=\"hoverCard("+friend.userId+")\" onmouseout=\"outCard()\">\n" +
+            "                                                <img src=\"resource/ben-dehghan.jpg\" width='50' height='50' onmouseover=\"hoverCard("+friend.userId+")\">\n" +
             "                                            </div>\n" +
             "                                            <div class=\"col-sm-9\">\n" +
             "                                                <div id=\"usernickname\">"+friend.userNickname+"</div>\n" +
@@ -343,4 +348,129 @@ function addFriend(friendId) {
         }
     });
 }
+function hoverCard(friendId) {
 
+    var friend;
+    for(var i=0;i<allFriends.length;i++) {
+        if(friendId === allFriends[i].userId){
+            friend = allFriends[i];
+        }
+    }
+    var sex;
+    switch (friend.userSex){
+        case 1:sex = "男";break;
+        case 2:sex = "女";break;
+        default:sex = "不公开";break;
+    }
+    document.getElementById("friend_nickname").data = friend.userId;
+    document.getElementById("friend_nickname").innerHTML = friend.userNickname;
+    document.getElementById("friend_sex").innerHTML = sex;
+    document.getElementById("friend_mobile").innerHTML = friend.userPhone;
+    document.getElementById("friend_email").innerHTML = friend.userEmail;
+    document.getElementById("friend_address").innerHTML = friend.userAddress;
+    document.getElementById("friend_username").innerHTML = friend.userName;
+
+    var impression;
+    $.ajax({
+        type:"get",
+        datatype:"string",
+        async:false,
+        url:"/impression/findFriendImpression",
+        data:{
+            "userId":friend.userId
+        },
+        success:function (data) {
+            impression = JSON.parse(data);
+        }
+    });
+    $("#friend_impression").empty();
+    for(var i=0;i<impression.length;i++){
+
+    $("#friend_impression").append("<span style=\"padding: 6px\" class=\"badge badge-pill badge-primary\">"+impression[i].impressionContent+"</span>")
+}
+$("#addImpression").empty();
+$("#addImpression").append("<input class=\"input-group\" id=\"inputImpression\" style=\"margin-top: 10px\">\n" +
+    "                <button class=\"btn-block btn-primary\" onclick=\"addImpression("+friendId+")\">添加好友印象</button>")
+
+    var x = $('#'+friend.userId).offset().left;
+    var y = $('#'+friend.userId).offset().top;
+    var height = $("#friendCard").height();
+    var height2 = $('#'+friend.userId).height();
+    $("#friendCard").css('position',"absolute");
+    $("#friendCard").css('z-index',1000);
+    if(y>height){
+        $("#friendCard").css({'top':y-height+3});
+    }else {
+        $("#friendCard").css({'top':y+height2+3});
+    }
+    $("#friendCard").show();
+    hideInfoCard();
+}
+function outCard() {
+    $("#friendCard").hide();
+}
+function hideInfoCard(){	//隐藏div
+    //延时3秒
+    setTimeout(outCard,20000);
+}
+function out() {
+    $("#friendCard").hide();
+}
+function addImpression(friendId){
+    var inputImpression = document.getElementById("inputImpression").value;
+    if(!inputImpression == ""){
+        var impression = {
+            "userId":friendId,
+            "impressionText":inputImpression
+        };
+        $.ajax({
+            type:"get",
+            datatype:"string",
+            async:false,
+            url:"/impression/saveFriendImpression",
+            data:{
+                "obj":JSON.stringify(impression)
+            },
+            success:function (data) {
+                $("#inputImpression").val("");
+                if(data=="-1"){
+                    alert("添加印象失败");
+                }
+            }
+        });
+        hoverDivCard(friendId);
+    }
+}
+function searchFriend() {
+    var username=document.getElementById("interaction").value;
+    var exsitFriend;
+    $.ajax({
+        type:"get",
+        datatype:"string",
+        async:false,
+        url:"/users/searchFriend",
+        data:{
+            "user_nickname":username
+        },
+        success:function (data) {
+            exsitFriend = JSON.parse(data);
+        }
+    });
+
+    $("#friendList").empty();
+    for (var i=0;i<exsitFriend.length;i++){
+        alert(exsitFriend[i].userNickname);
+        $("#friendList").append("<li class=\"list-group-item\" style=\"cursor: pointer\" onclick=\"selectedFriend("+exsitFriend[i].userId+")\" id=\"\">\n" +
+            "                                    <div class=\"row\">\n" +
+            "                                        <div class=\"col-lg-3\">\n" +
+            "                                            <img src=\"resource/ben-dehghan.jpg\" width=\"60\" height=\"60\">\n" +
+            "                                        </div>\n" +
+            "                                        <div class=\"col-lg-9\">\n" +
+            "                                            <div class=\"user_nickname\">"+exsitFriend[i].userNickname+"</div>\n" +
+            "                                            <div class=\"user_remark\">"+exsitFriend[i].userRemark+"</div>\n" +
+            "                                        </div>\n" +
+            "                                    </div>\n" +
+            "                                </li>")
+    }
+
+}

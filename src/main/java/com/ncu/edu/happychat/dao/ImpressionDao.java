@@ -10,6 +10,11 @@ import java.util.List;
 
 @Repository
 public interface ImpressionDao extends JpaRepository<Impression,Integer> {
+    /**
+     * 根据好友Id查询拥有的印象
+     * @param userId
+     * @return
+     */
     @Query(value = "select * from impression where  user_id=?",nativeQuery = true)
     List<Impression> findAllByUserId(Integer userId);
 }

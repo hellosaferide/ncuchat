@@ -41,12 +41,11 @@
 					</div>
 
 					<div class="input-group" id="search" style="margin-bottom: 20px;">
-						<input type="text" class="form-control" placeholder="搜索联系人">
-						<span class="input-group-addon">
+						<input type="text" class="form-control" placeholder="搜索联系人" id="interaction">
+						<button class="input-group-addon" onclick="searchFriend()">
 							<i class="fas fa-search"></i>
-						</span>
+						</button>
 					</div>
-
 					<div class="container" id="menu">
 						<div class="row">
 							<div class="col-md-3" >
@@ -64,11 +63,22 @@
 						</div>
 					</div>
 					<hr>
-
 					<div class="row">
 						<div class="col-md-12">
 							<ul class="list-group" id="friendList">
-
+                                <!--
+                                <li class="list-group-item" style="cursor: pointer" onclick="selectedFriend()" id="">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <img src="resource/ben-dehghan.jpg" width="60" height="60">
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <div class="user_nickname"></div>
+                                            <div class="user_remark"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                -->
 							</ul>
 						</div>
 					</div>
@@ -91,15 +101,21 @@
 						</div>
 					</div>
 					<hr>
-                    <div class="input-group" id="input_message" style="margin-bottom: 20px;">
-                        <form id="wiselyForm">
-                            <input type="text" name="text" class="form-control" style="height: 60px;" placeholder="在此输入消息" id="input">
-                            <button class="input-group-addon" style="width: 60px;" id="sendButton" type="submit">
-                                发送
-                            </button>
-                        </form>
 
-					</div>
+                    <form id="wiselyForm" >
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-10">
+                                    <input type="text" name="text" class="form-control input-lg" style="height: 60px;width: 920px" placeholder="在此输入消息" id="input">
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-success" style="width: 80px;height: 60px;cursor: pointer" id="sendButton" type="submit" disabled>
+                                        发送
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
 				</div>
 			</div>
@@ -138,6 +154,37 @@
                 </div>
             </div>
         </div>
+        <div id="friendCard" style="font-size: 16px;width: 300px;background-color: aliceblue;box-shadow: 0px 1px 3px rgba(34, 25, 25, 0.2)" onmouseleave="out()">
+            <div id="top" style="padding-top: 20px;" ></div>
+            <div>
+                <i class="fab fa-qq " style="color: blue"></i>账号:<span id="friend_username"></span>
+            </div>
+            <div>
+                <i class="far fa-user-circle "  style="color: blue"></i>昵称:<span id="friend_nickname"></span>
+            </div>
+            <div>
+                <i class="fas fa-transgender "  style="color: blue"></i>性别:<span id="friend_sex"></span>
+            </div>
+            <div>
+                <i class="fas fa-envelope "  style="color: blue"></i>邮箱:<span id="friend_email"></span>
+            </div>
+            <div>
+                <i class="fas fa-mobile "  style="color: blue"></i>手机:<span id="friend_mobile"></span>
+            </div>
+            <div>
+                <i class="fas fa-map-marker-alt " style="color: blue"></i>地址:<span id="friend_address"></span>
+            </div>
+            <div>好友印象</div>
+            <div id="friend_impression">
+                <span style="padding: 6px" class="badge badge-pill badge-primary">impression[i].impressionContent</span>
+            </div>
+            <div id="addImpression" style="margin-top: 20px">
+                <input class="input-group" id="inputImpression">
+                <button class="btn-block btn-primary" onclick="addImpression()">添加好友印象</button>
+            </div>
+
+        </div>
+
 		<script th:src="@{js/bootstrap.min.js}"></script>
         <script th:inline="javascript">
             var sendUser  = null;
@@ -145,24 +192,30 @@
             $('#wiselyForm').submit(function(e){
                 e.preventDefault();
                 var text = $('#wiselyForm').find('input[name="text"]').val();
-                if(sendUser==null){
-                    $.ajax({
-                        type:"get",
-                        async:false,
-                        url:"/loginCheck",
-                        success:function (data) {
-                            sendUser = ""+data;
-                        }
-                    });
+                text=text.trim(text);
+                if (text!=""){
+                    if(sendUser==null){
+                        $.ajax({
+                            type:"get",
+                            async:false,
+                            url:"/loginCheck",
+                            success:function (data) {
+                                sendUser = ""+data;
+                            }
+                        });
+                    }
+                    receiveUser = document.getElementById("chatUser").data;
+                    var obj = {"text":text,"sendUser":sendUser,"receiveUser":receiveUser};
+                    $('#wiselyForm').find('input[name="text"]').val("");
+                    $('#chatContent').append("<div class=\"friend_id\">\n" +
+                        "                                    <img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\" >\n" +
+                        "                                    <div class=\"chat-bubble chat-bubble-right\">"+text+"</div>\n" +
+                        "                                </div>");
+                    send(obj);
+                }else{
+                    alert("输入的消息不能为空!")
                 }
-                receiveUser = document.getElementById("chatUser").data;
-                var obj = {"text":text,"sendUser":sendUser,"receiveUser":receiveUser};
-                $('#wiselyForm').find('input[name="text"]').val("");
-                $('#chatContent').append("<div class=\"friend_id\">\n" +
-                    "                                    <img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\" >\n" +
-                    "                                    <div class=\"chat-bubble chat-bubble-right\">"+text+"</div>\n" +
-                    "                                </div>");
-                send(obj);
+
             });
 
             var sock = new SockJS("/endpointChat"); //1
@@ -188,7 +241,6 @@
                 var sendText = JSON.stringify(text);
                 stomp.send("/chat1", {}, sendText);//3
             }
-            "<i class=\"fas fa-download fa-2x\" style=\"font-size: 28px;cursor: pointer\" onclick=\"saveChats("+userid+","+fromIndex+")\" id=\"doownlad\"></i>"
         </script>
 	</body>
 </html>

@@ -8,32 +8,26 @@ import javax.persistence.*;
 public class Relationships {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int relation_id;
-
     private int userId;
     private int friendId;
     private int groupId;
-
     public int getUserId() {
         return userId;
     }
-
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
     public int getFriendId() {
         return friendId;
     }
-
     public void setFriendId(int friendId) {
         this.friendId = friendId;
     }
-
     public int getGroupId() {
         return groupId;
     }
-
     public void setGroupId(int groupId) {
         this.groupId = groupId;
     }

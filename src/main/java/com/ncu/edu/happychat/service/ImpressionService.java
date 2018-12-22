@@ -18,7 +18,7 @@ public class ImpressionService {
         return impressionDao.findAllByUserId(userId);
     }
 
-    public List<Impression> finAll(){
+    public List<Impression> findAll(){
         return impressionDao.findAll();
     }
 

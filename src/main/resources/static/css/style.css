@@ -1,3 +1,7 @@
 .friend_id{
 	margin-left: 850px;
 }
+#friendCard{
+    background-image: url(../resource/img.jpg);
+    background-repeat: no-repeat;
+}

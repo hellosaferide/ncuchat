@@ -105,31 +105,18 @@ public class LoadUserMessage {
         return JsonTransform.chatsListToJSON(chatsByUserId).toString();
     }
 
-    @RequestMapping(value = "/loadFriendImpression",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
-    public @ResponseBody String findAllFriendImpression(@RequestParam("obj") String obj){
-        int userId = Integer.valueOf(obj);
-        System.out.println(userId);
-        List<Impression> impressionList = impressionService.finAll();
-        List<Impression> returnImpression = new ArrayList<>();
-        for(Impression impression1:impressionList){
-            if(impression1.getUserId() == userId){
-                returnImpression.add(impression1);
-            }
-        }
-        return JsonTransform.impressionListToJson(returnImpression).toString();
-    }
-
+    /*
     @RequestMapping(value = "/saveFriendImpression",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
     public @ResponseBody String saveFriendImpression(@RequestParam("obj") String obj){
 
         JSONObject jsonObject = new JSONObject(obj);
         Impression impression = new Impression();
         impression.setUserId(jsonObject.getInt("userId"));
-        impression.setImpressionText(jsonObject.getString("impressionText"));
+        impression.setImpressionContent(jsonObject.getString("impressionText"));
         impressionService.saveImpression(impression);
         return "1";
     }
-
+    */
     @RequestMapping(value = "/searchFriend",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
     public @ResponseBody String searchFriend(@RequestParam("obj") String obj){
         String userName = obj;
