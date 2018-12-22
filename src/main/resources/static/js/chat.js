@@ -34,13 +34,16 @@ function loadUserMessage() {
 var current_friend;
 var chats;
 var allFriends;
+var userPhoto;
 function setUserMessage(UserJsonDatas) {
 
     var UserJsonData = JSON.parse(UserJsonDatas);//将字符串转成json数组
     var userId = UserJsonData.userId;
     var userName = UserJsonData.userName;
+    userPhoto = UserJsonData.userPhoto;
     var userTel= UserJsonData.userTelephone;
     var userNickName = UserJsonData.userNickname;
+    $("#photo").attr("src","resource/"+userPhoto)
     var userEmail = UserJsonData.userEmail;
     var userSex ;
     switch (UserJsonData.userSex){
@@ -51,7 +54,6 @@ function setUserMessage(UserJsonDatas) {
 
     var userAddress = UserJsonData.userAddress;
     var userRemark = UserJsonData.userRemark;
-    var userPhoto = UserJsonData.userPhoto;
     document.getElementById("user_nickname").innerHTML = userNickName;
     document.getElementById("user_nickname").data = userId;
     document.getElementById("user_mark").innerHTML = userRemark;
@@ -114,7 +116,7 @@ function setUserMessage(UserJsonDatas) {
                     "\t\t\t\t\t\t\t\t\t<div class=\"container-fluid\">\n" +
                     "                                        <div class=\"row\">\n" +
                     "                                            <div class=\"col-sm-3\">\n" +
-                    "                                                <img src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\">\n" +
+                    "                                                <img  width=\"60\" height=\"60\" id='img"+friend.userId+"'>\n" +
                     "                                            </div>\n" +
                     "                                            <div class=\"col-sm-4\">\n" +
                     "                                                <div id=\"friend_name\">"+friend.userNickname+"</div>\n" +
@@ -127,7 +129,9 @@ function setUserMessage(UserJsonDatas) {
                     "                                        </div>\n" +
                     "                                    </div>\n" +
                     "\t\t\t\t\t\t\t\t</li>"
+
                 $("#friendList").append(content);
+                $("#img"+friend.userId).attr("src","resource/"+friend.userPhoto);
             }
         }
     });
@@ -193,22 +197,24 @@ function selectedFriend(friendId) {
     for(i=0;i<chats.length;i++){
         if(chats[i].userId === current_friend.userId){
             $('#chatContent').append("<div class=\"user_id\">\n" +
-                "\t\t\t\t\t\t\t\t\t<img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\" >\n" +
+                "\t\t\t\t\t\t\t\t\t<img class=\"chatimg\" width=\"60\" height=\"60\" >\n" +
                 "\t\t\t\t\t\t\t\t\t<div class=\"chat-bubble chat-bubble-left\">\n" +
                 "\t\t\t\t\t\t\t\t\t\t"+chats[i].sendContent+"\n" +
                 "\t\t\t\t\t\t\t\t\t</div>\n" +
                 "\t\t\t\t\t\t\t\t</div>");
+            $(".chatimg").eq(i).attr("src","resource/"+current_friend.userPhoto);
+
         }else {
             $('#chatContent').append("<div class=\"friend_id\">\n" +
                 "\t\t\t\t\t\t\t\t\t<div class=\"chat-bubble chat-bubble-right\" style=\"display: inline-block;\">\n" +
                 "\t\t\t\t\t\t\t\t\t\t"+chats[i].sendContent+"\n" +
                 "\t\t\t\t\t\t\t\t\t</div>\n" +
-                "\t\t\t\t\t\t\t\t\t<img class=\"img-circle\" src='resource/ben-dehghan.jpg' width=\"60\" height=\"60\">\n" +
+                "\t\t\t\t\t\t\t\t\t<img class=\"chatimg\" width=\"60\" height=\"60\">\n" +
                 "\t\t\t\t\t\t\t\t\t\n" +
                 "\t\t\t\t\t\t\t\t</div>");
+            $(".chatimg").eq(i).attr("src","resource/"+userPhoto);
         }
     }
-
 
 }
 
@@ -259,7 +265,7 @@ function loadAddressBook() {
             "                                    <div class=\"container-fluid\">\n" +
             "                                        <div class=\"row\">\n" +
             "                                            <div class=\"col-sm-3\">\n" +
-            "                                                <img src=\"resource/ben-dehghan.jpg\" width='50' height='50' onmouseover=\"hoverCard("+friend.userId+")\">\n" +
+            "                                                <img width='50' height='50' onmouseover=\"hoverCard("+friend.userId+")\" id='img"+friend.userId+"'>\n" +
             "                                            </div>\n" +
             "                                            <div class=\"col-sm-9\">\n" +
             "                                                <div id=\"usernickname\">"+friend.userNickname+"</div>\n" +
@@ -268,7 +274,7 @@ function loadAddressBook() {
             "                                        </div>\n" +
             "                                    </div>\n" +
             "                                </li>") ;
-
+            $("#img"+friend.userId).attr("src","resource/"+friend.userPhoto);
     }
 }
 
@@ -309,7 +315,7 @@ function findFriend() {
             "                                    <div class=\"container-fluid\">\n" +
             "                                        <div class=\"row\">\n" +
             "                                            <div class=\"col-sm-3\">\n" +
-            "                                                <img src=\"resource/ben-dehghan.jpg\" width=\"50\" height=\"50\" />\n" +
+            "                                                <img id='userimg"+res[i].userId+"' width=\"50\" height=\"50\" />\n" +
             "                                            </div>\n" +
             "                                            <div class=\"col-sm-7\">\n" +
             "                                                <div class=\"user_name\">"+res[i].userNickname+"</div>\n" +
@@ -321,7 +327,9 @@ function findFriend() {
             "                                        </div>\n" +
             "                                    </div>\n" +
             "                                </li>"
+
         $("#userListst").append(content);
+        $("#userimg"+res[i].userId).attr("src","resource/"+res[i].userPhoto);
     }
 
 }
@@ -462,7 +470,7 @@ function searchFriend() {
         $("#friendList").append("<li class=\"list-group-item\" style=\"cursor: pointer\" onclick=\"selectedFriend("+exsitFriend[i].userId+")\" id=\"\">\n" +
             "                                    <div class=\"row\">\n" +
             "                                        <div class=\"col-lg-3\">\n" +
-            "                                            <img src=\"resource/ben-dehghan.jpg\" width=\"60\" height=\"60\">\n" +
+            "                                            <img id='exsit"+exsitFriend[i].userId+"' width=\"60\" height=\"60\">\n" +
             "                                        </div>\n" +
             "                                        <div class=\"col-lg-9\">\n" +
             "                                            <div class=\"user_nickname\">"+exsitFriend[i].userNickname+"</div>\n" +
@@ -470,6 +478,9 @@ function searchFriend() {
             "                                        </div>\n" +
             "                                    </div>\n" +
             "                                </li>")
+
+        $("#exsit"+exsitFriend[i].userId).attr("src","resource/"+exsitFriend[i].userPhoto)
+
     }
 
 }
