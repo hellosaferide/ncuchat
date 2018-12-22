@@ -324,7 +324,6 @@ function findFriend() {
         $("#userListst").append(content);
     }
 
-
 }
 function addFriend(friendId) {
     var addFriedPackage = {
