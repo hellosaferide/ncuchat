@@ -16,7 +16,7 @@ public class Users {
     private String userEmail;
     private String userAddress;
     private String userRemark;
-    private int userPhoto;
+    private String userPhoto;
 
     public int getUserId() {
         return userId;
@@ -82,11 +82,11 @@ public class Users {
         this.userRemark = userRemark;
     }
 
-    public int getUserPhoto() {
+    public String getUserPhoto() {
         return userPhoto;
     }
 
-    public void setUserPhoto(int user_photo) {
+    public void setUserPhoto(String userPhoto) {
         this.userPhoto = userPhoto;
     }
 

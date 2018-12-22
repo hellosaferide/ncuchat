@@ -48,7 +48,7 @@ public class JsonTransform {
         users.setUserAddress(obj.getString("userAddress"));
         users.setUserRemark(obj.getString("userRemark"));
         users.setUserPassword(obj.getString("userPwd"));
-        users.setUserPhoto((int)obj.getDouble("userPhoto"));
+        users.setUserPhoto(obj.getString("userPhoto"));
         return users;
     }
 
