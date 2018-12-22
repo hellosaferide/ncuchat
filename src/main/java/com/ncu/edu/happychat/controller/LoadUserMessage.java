@@ -177,7 +177,7 @@ public class LoadUserMessage {
         JSONObject jsonObject = new JSONObject(obj);
         int userId = jsonObject.getInt("userId");
         int friendId = jsonObject.getInt("friendId");
-        List<Chats> chatsList = new ArrayList<>();
+        List<Chats> chatsList = chatsService.findAll();
         ArrayList<Chats> returnChats = new ArrayList<>();
         for(Chats chats:chatsList){
             if(chats.getUserId() == userId&&chats.getFriendId() == friendId){

@@ -142,8 +142,10 @@ function timetrans(dates){
 function selectedFriend(friendId) {
 
     var chats;
+    var userId=document.getElementById("user_nickname").data;
     $("#"+friendId).attr("class","list-group-item active");
-
+    $("#save").empty();
+    $("#save").append("<i class=\"fas fa-download fa-2x\" style=\"font-size: 28px;cursor: pointer\" onclick=\"saveChats("+userId+","+friendId+")\" id=\"doownlad\"></i>")
     $("#chatContent").empty();
     $("#buttonSend").disabled = false;
     var i = 0;
@@ -203,6 +205,25 @@ function selectedFriend(friendId) {
     }
 
 
+}
+
+function saveChats(userId, friendId) {
+    var saveChatsPackage = {
+        "userId":userId,
+        "friendId":friendId
+    }
+    $.ajax({
+        type:"get",
+        datatype:"string",
+        async:false,
+        url:"/saveChatBetweenTwoUser",
+        data:{
+            "obj":JSON.stringify(saveChatsPackage)
+        },
+        success:function (data) {
+            alert("保存成功");
+        }
+    });
 }
 
 function loadChat() {

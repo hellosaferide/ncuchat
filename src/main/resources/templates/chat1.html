@@ -56,9 +56,9 @@
 								<i class="fas fa-address-book fa-2x" style="font-size: 28px;cursor: pointer" id="addressbook" onclick="loadFriend()"></i>
 							</div>
 							<div class="col-md-3">
-                                <i class="fas fa-user-plus fa-2x" style="font-size: 28px;cursor: pointer" onclick="addFriend()" id="add" data-toggle="modal" data-target="#myModal"></i>
+                                <i class="fas fa-user-plus fa-2x" style="font-size: 28px;cursor: pointer" id="add" data-toggle="modal" data-target="#myModal"></i>
 							</div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="save">
                                 <i class="fas fa-download fa-2x" style="font-size: 28px;cursor: pointer" onclick="saveChats(userId)" id="doownlad"></i>
                             </div>
 						</div>
@@ -182,12 +182,13 @@
                     "                                    <div class=\"chat-bubble chat-bubble-left\">"+text+"</div>\n" +
                     "                                </div>");
             }
+
             //向服务器发送消息
             function send(text) {
                 var sendText = JSON.stringify(text);
                 stomp.send("/chat1", {}, sendText);//3
             }
-
+            "<i class=\"fas fa-download fa-2x\" style=\"font-size: 28px;cursor: pointer\" onclick=\"saveChats("+userid+","+fromIndex+")\" id=\"doownlad\"></i>"
         </script>
 	</body>
 </html>
