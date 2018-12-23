@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/index","/register","/findFriendImpression").permitAll()//1根路径和/index路径不拦截
+                .antMatchers("/index","/reg","/register").permitAll()//1根路径和/index路径不拦截
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -63,10 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    /*@Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(11);
-    }*/
 
     @Bean
     public static NoOpPasswordEncoder passwordEncoder() {

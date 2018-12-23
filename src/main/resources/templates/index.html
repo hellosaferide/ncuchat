@@ -1,52 +1,72 @@
-
-
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" th:href="@{css/login_style.css}">
-	<script th:src="@{js/jquery.min.js}"></script>
-	<link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.min.css}">
-	<script charset="utf-8" th:src="@{js/login_script.js}"></script>
-	<title>NcuChat</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/normalize.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{css/demo.css}" />
+    <link rel="stylesheet" th:href="@{js/vendor/jgrowl/css/jquery.jgrowl.min.css}">
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" th:href="@{css/component.css}" />
+	<!--[if IE]>
+	<script th:src="@{js/html5.js}"></script>
+	<![endif]-->
+	<title>HappyChat</title>
+	<style>
+		input::-webkit-input-placeholder{
+			color:rgba(0, 0, 0, 0.726);
+		}
+		input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+			color:rgba(0, 0, 0, 0.726);
+		}
+		input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+			color:rgba(0, 0, 0, 0.726);
+		}
+		input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+			color:rgba(0, 0, 0, 0.726);
+		}
+	</style>
 </head>
 <body onload="onLoad()">
-	<div class="contianer" id="logo">
-		<span class="navbar-brand col-sm-2 offset-ms-2">NcuChat</span>
-	</div>
-	<div id="body">
-		<div >
-			<div class="row">
-				<div class="col"></div>
-    			<div class="col">
-					<div id="container">
-  						<form th:action="@{/index}" method="post">
-    						<div class="form-group">
-      							<label for="username">用户名：</label>
-      							<input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
-    						</div>
-    						<div class="form-group">
-      							<label for="pwd">密码:</label>
-      							<input type="password" class="form-control" name="password" id="pwd"  placeholder="Enter password">
-    						</div>
-    						<div class="form-check">
-      							<label class="form-check-label">
-        						<input class="form-check-input" type="checkbox"> Remember me
-      							</label>
-    						</div>
-							<button type="submit" onclick="loginSubmit()" class="col-sm-12 btn btn-primary">登录</button>
-  						</form>
-                        <div class="container span_prompt">
-						    <span>还没有账号？<a class="span_button" href="reg">点击注册</a></span>
-					    </div>
-                    </div><!--contianer-->
-    			</div>
-    			<div class="col"></div>
+<div class="container demo-1">
+	<div class="content">
+		<div id="large-header" class="large-header">
+			<canvas id="demo-canvas"></canvas>
+			<div class="logo_box">
+				<h3>HappyChat</h3>
+				<form th:action="@{/index}" method="post">
+					<div class="input_outer">
+						<span class="u_user"></span>
+						<input type="text"  class="text" name="username" id="username" placeholder="Enter username">
+					</div>
+					<div class="input_outer">
+						<span class="u_pswd"></span>
+						<input type="password"  class="text" name="password" id="pwd"  placeholder="Enter password">
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox"> Remember me
+						</label>
+					</div>
+                    <button type="submit" onclick="loginSubmit()" class="act-but submit" style="width: 330px;">登录</button>
+                </form>
+				<div class="container span_prompt">
+					<span>还没有账号？<a href="reg">点击注册</a></span>
+				</div>
 			</div>
 		</div>
-    </div>
-	<div id="bottom">
-        <p>Created By 肖孟豪</p>
-    </div>
-
+	</div>
+</div><!-- /container -->
+<script th:src="@{js/TweenLite.min.js}"></script>
+<script th:src="@{js/EasePack.min.js}"></script>
+<script th:src="@{js/jquery.js}"></script>
+<script th:src="@{js/rAF.js}"></script>
+<script th:src="@{js/demo-1.js}"></script>
+<script th:src="@{js/vendor/jgrowl/jquery.jgrowl.min.js}"></script>
+<script th:src="@{js/login_script.js}"></script>
+<div style="text-align:center;">
+</div>
 </body>
 </html>

@@ -85,7 +85,6 @@ function setUserMessage(UserJsonDatas) {
 
         success:function (data) {
             chats = JSON.parse(data);
-
             var i ;
             var friend;
             for(i =0 ; i < chats.length;i++){
@@ -105,8 +104,6 @@ function setUserMessage(UserJsonDatas) {
                 });
 
                 friend = JSON.parse(friend);//friend为朋友信息
-
-
                 var time = timetrans(chats[i].sendTime.time);
                 var contents = chats[i].sendContent;
                 if(contents.length>15){
@@ -267,14 +264,65 @@ function loadAddressBook() {
             "                                            <div class=\"col-sm-3\">\n" +
             "                                                <img width='50' height='50' onmouseover=\"hoverCard("+friend.userId+")\" id='img"+friend.userId+"'>\n" +
             "                                            </div>\n" +
-            "                                            <div class=\"col-sm-9\">\n" +
+            "                                            <div class=\"col-sm-7\">\n" +
             "                                                <div id=\"usernickname\">"+friend.userNickname+"</div>\n" +
             "                                                <div id=\"userremark\">"+friend.userRemark+"</div>\n" +
+            "                                            </div>\n" +
+            "                                            <div class=\"col-sm-2\">\n" +
+            "                                                  <i class=\"fas fa-trash-alt\" onclick=\"deleteFriend("+friend.userId+","+document.getElementById("user_nickname").data+")\"></i>"+
             "                                            </div>\n" +
             "                                        </div>\n" +
             "                                    </div>\n" +
             "                                </li>") ;
             $("#img"+friend.userId).attr("src","resource/"+friend.userPhoto);
+    }
+}
+function deleteFriend(friendId,userId) {
+    var isDelete=confirm("你确定要删除?");
+
+    var jsonData={
+        "userId":userId,
+        "friendId":friendId
+    }
+
+    if(isDelete==true)
+    {
+        $.ajax({
+            type:"get",
+            datatype:"string",
+            async:false,
+            url:"/relationships/deleteRelationship",
+            data:{
+                "jsonData":JSON.stringify(jsonData)
+            },
+            success:function (data) {
+                if (data=="1"){
+
+                    alert("删除成功");
+                }
+
+            }
+
+        });
+        $.ajax({
+            type:"get",
+            datatype:"string",
+            async:false,
+            url:"/loadFriends",
+            data:{
+                "userId":document.getElementById("user_nickname").data
+            },
+            success:function (data) {
+                allFriends = JSON.parse(data);
+            }
+        });
+        loadAddressBook();
+
+
+    }
+    else
+    {
+        alert("放弃删除")
     }
 }
 
@@ -451,22 +499,34 @@ function addImpression(friendId){
 function searchFriend() {
     var username=document.getElementById("interaction").value;
     var exsitFriend;
+    var jsonData={
+        "user_nickname":username
+    }
     $.ajax({
         type:"get",
         datatype:"string",
         async:false,
         url:"/users/searchFriend",
         data:{
-            "user_nickname":username
+            "obj":JSON.stringify(jsonData)
         },
         success:function (data) {
             exsitFriend = JSON.parse(data);
         }
     });
 
+
     $("#friendList").empty();
     for (var i=0;i<exsitFriend.length;i++){
-        alert(exsitFriend[i].userNickname);
+        var j;
+        for(j=0;j<allFriends.length;j++){
+            if (allFriends[j].userId==exsitFriend[i].userId){
+                break;
+            }
+        }
+        if(j==allFriends.length){
+            break;
+        }
         $("#friendList").append("<li class=\"list-group-item\" style=\"cursor: pointer\" onclick=\"selectedFriend("+exsitFriend[i].userId+")\" id=\"\">\n" +
             "                                    <div class=\"row\">\n" +
             "                                        <div class=\"col-lg-3\">\n" +

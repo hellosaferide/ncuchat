@@ -62,7 +62,7 @@
 .u_phone{
 	width: 25px;
 	height: 25px;
-	background-image: url(../img/login_ico.png);
+	background-image: url(../resource/login_ico.png);
 	background-position: -85px -110px;
 	position: absolute;
 	margin: 10px 13px;
@@ -70,7 +70,7 @@
 .u_user{
 	width: 25px;
 	height: 25px;
-	background: url(../img/login_ico.png);
+	background: url(../resource/login_ico.png);
 	background-position:  -125px 0;
 	position: absolute;
 	margin: 10px 13px;
@@ -78,7 +78,7 @@
 .u_email{
 	width: 25px;
 	height: 25px;
-	background: url(../img/login_ico.png);
+	background: url(../resource/login_ico.png);
 	background-position:  -85px 0;
 	position: absolute;
 	margin: 10px 13px;
@@ -86,7 +86,7 @@
 .u_sex{
 	width: 25px;
 	height: 25px;
-	background: url(../img/login_ico.png);
+	background: url(../resource/login_ico.png);
 	background-position:  -85px -34px;
 	position: absolute;
 	margin: 10px 13px;
@@ -94,7 +94,7 @@
 .u_add{
 	width: 25px;
 	height: 25px;
-	background: url(../img/login_ico.png);
+	background: url(../resource/login_ico.png);
 	background-position:  -85px -155px;
 	position: absolute;
 	margin: 10px 13px;
@@ -102,7 +102,7 @@
 .u_rmk{
 	width: 25px;
 	height: 25px;
-	background: url(../img/login_ico.png);
+	background: url(../resource/login_ico.png);
 	background-position:  -85px -155px;
 	position: absolute;
 	margin: 10px 13px;
@@ -110,7 +110,7 @@
 .u_pswd{
 	width: 25px;
 	height: 25px;
-	background-image: url(../img/login_ico.png);
+	background-image: url(../resource/login_ico.png);
 	background-position: -125px -34px;
 	position: absolute;
 	margin: 10px 13px;

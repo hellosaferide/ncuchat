@@ -2,11 +2,9 @@ package com.ncu.edu.happychat.controller;
 
 import com.ncu.edu.happychat.entity.Relationships;
 import com.ncu.edu.happychat.service.RelationshipsService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +24,22 @@ public class RelationshipsController {
         service.saveRelationships(relationships);
     }
 
-    @PostMapping("/d")
-    public void deleteRelationships(Relationships relationships){
+    @RequestMapping(value="/deleteRelationship")
+    public String deleteRelationships(@RequestParam("jsonData") String jsonData){
+        JSONObject jsonObject=JSONObject.fromObject(jsonData);
+        int userId=jsonObject.getInt("userId");
+        int friendId=jsonObject.getInt("friendId");
+        List<Relationships> list=service.findAll();
+        Relationships relationships=null;
+        for (int i=0;i<list.size();i++){
+            if (list.get(i).getUserId()==userId&&list.get(i).getFriendId()==friendId){
+                relationships=list.get(i);
+            }
+        }
         service.deleteRelationships(relationships);
+        return "1";
     }
+
 
     @PostMapping("/u")
     public void updateRelationships(Relationships relationships){

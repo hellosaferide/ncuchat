@@ -64,12 +64,15 @@ public class UsersController {
 
     /**
      * 查找已有联系人
-     * @param user_nickname
+     * @param obj
      * @return
      */
     @RequestMapping(value = "/searchFriend",method = RequestMethod.GET,produces = "text/plain;charset=UTF-8")
-    public @ResponseBody String search_exsit_Friend(@RequestParam("user_nickname") String user_nickname){
-        return JsonTransform.userListToJSON(usersService.selUserByNickname(user_nickname)).toString();
+    public @ResponseBody String search_exsit_Friend(@RequestParam("obj") String obj){
+        JSONObject jsonObject=JSONObject.fromObject(obj);
+        String userName=jsonObject.getString("user_nickname");
+        System.out.println(usersService.selExsitFriend(userName));
+        return JsonTransform.userListToJSON(usersService.selExsitFriend(userName)).toString();
     }
 
 }

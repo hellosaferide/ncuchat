@@ -1,8 +1,11 @@
 package com.ncu.edu.happychat.service;
 
 
+import com.ncu.edu.happychat.dao.RelationshipsDao;
 import com.ncu.edu.happychat.dao.UsersDao;
+import com.ncu.edu.happychat.entity.Relationships;
 import com.ncu.edu.happychat.entity.Users;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,9 @@ import java.util.List;
 public class UsersService {
     @Autowired
     private UsersDao usersDao;
+
+    @Autowired
+    private RelationshipsDao relationshipsDao;
 
     public List<Users> findAll(){
         return usersDao.findAll();
@@ -62,6 +68,18 @@ public class UsersService {
             }
         }
         return returnUser;
+    }
+    public List<Users> selExsitFriend(String user_nickname){
+
+        List<Users> friendList=usersDao.findAll();
+        List<Users> returnUser=new ArrayList<>();
+        for (int i=0;i<friendList.size();i++){
+            if (friendList.get(i).getUserNickname().indexOf(user_nickname)!=-1){
+                returnUser.add(friendList.get(i));
+            }
+        }
+        return returnUser;
+
     }
 
 }
