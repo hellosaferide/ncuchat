@@ -20,24 +20,4 @@ public class ChatsController {
     public List<Chats> findAll() {
         return service.findAll();
     }
-
-    @PostMapping("/i")
-    public void saveChats(Chats chats) {
-        service.saveChats(chats);
-    }
-
-    @PostMapping("/d")
-    public void deleteChats(Chats chats){
-        service.deleteChats(chats);
-    }
-
-    @PostMapping("/u")
-    public void updateChats(Chats chats){
-        service.updateChats(chats);
-    }
-
-    @PostMapping("/g")
-    public List<Chats> queryContent(String userId,String friendId){
-        return service.queryContent(userId,friendId);
-    }
 }

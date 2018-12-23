@@ -21,19 +21,4 @@ public class GroupsController {
     public List<Groups> findAll() {
         return service.findAll();
     }
-
-    @PostMapping("/i")
-    public void saveGroups(Groups groups) {
-        service.saveGroups(groups);
-    }
-
-    @PostMapping("/d")
-    public void deleteGroups(Groups groups){
-        service.deleteGroups(groups);
-    }
-
-    @PostMapping("/u")
-    public void updateGroups(Groups groups){
-        service.updateGroups(groups);
-    }
 }

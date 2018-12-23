@@ -1,5 +1,4 @@
 package com.ncu.edu.happychat.Config;
-
 import com.ncu.edu.happychat.entity.Users;
 import com.ncu.edu.happychat.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
